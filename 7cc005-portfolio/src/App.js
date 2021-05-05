@@ -1,25 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
 
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reddit.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <d>
-          meow
-        </d>
+        <div id="title">
+          Title Here
+        </div>
+        <div id="message-log">
+          Message Log Here
+        </div>
+        <div id="text-input">
+          Text Input Here
+        </div>
       </header>
     </div>
   );
