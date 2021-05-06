@@ -1,23 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import Login from './Login';
+import { Component } from 'react';
 
+class App extends Component{
+  constructor(props) {
+    super(props);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <div id="title">
-          Title Here
+    this._handleLogin = this._onLogin.bind(this);
+  }
+
+  render() {
+    return (
+        <div className="App container-fluid">
+         <Login handleLogin={ this._handleLogin } />
         </div>
-        <div id="message-log">
-          Message Log Here
-        </div>
-        <div id="text-input">
-          Text Input Here
-        </div>
-      </header>
-    </div>
-  );
+    );
+  }
+
+  _onLogin(name, password) {}
 }
+
+
+
 
 export default App;
