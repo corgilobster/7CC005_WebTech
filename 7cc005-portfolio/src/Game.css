@@ -4,6 +4,7 @@
 
 .game-messageLog {
     min-height: 20em;
+    align-self: flex-start;
 }
 
 .game-characterDetails {

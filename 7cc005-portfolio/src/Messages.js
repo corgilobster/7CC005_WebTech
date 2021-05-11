@@ -6,6 +6,7 @@ class Messages extends Component {
     render(){
         const messageRows = this.props.messages 
             .map((message) => <li>{message.timestamp.toString()} - {message.message}</li>);
+        console.log("Message class is called!");
         return(
             <ul className="list-unstyled">
                 {messageRows}

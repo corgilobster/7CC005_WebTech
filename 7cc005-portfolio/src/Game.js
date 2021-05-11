@@ -10,6 +10,8 @@ class Game extends Component{
             room: 'start',
             messages: []
         };
+        this._handleCommand = this._onCommand.bind(this);
+        this._welcomeMessage(); 
     }
 
     _addMessage(message) {
@@ -18,14 +20,16 @@ class Game extends Component{
             timestamp: new Date(),
             message: message
         });
+        console.log("this is the message: " + message);
         this.setState({
             messages
         });
-        this._handleCommand = this._onCommand.bind(this);
+        
     }
 
     _onCommand(e) {
         e.preventDefault();
+        console.log("_onCommand triggered");
         const command = this.commandInput.value;
         this.commandInput.value = "";
         if(command.startsWith("/shout ")) {
@@ -36,7 +40,9 @@ class Game extends Component{
         }
     }
 
-    
+    _welcomeMessage() {
+       this._addMessage("Welcome to mi-dungeon! Type in the text box below to say something! You can shout by entering '/shout ' followed by your message.");
+    }
 
     render() {
         return(
@@ -53,7 +59,7 @@ class Game extends Component{
                         {/* Input Text Box */}
                         <form onSubmit={this._handleCommand}>    
                             <input type="text" className="form-control" placeholder="Enter command" 
-                                    ref={(input) => { this.commandInput = input; }}/>
+                                    ref={(input) => { this.commandInput = input; }} />
                         </form>
                     </div>
                 </div>
