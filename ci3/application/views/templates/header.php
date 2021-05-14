@@ -4,4 +4,4 @@
         </head>
         <body>
 
-                <h1><?= esc($title) ?></h1>
+                <h1><?php echo $title; ?></h1>
