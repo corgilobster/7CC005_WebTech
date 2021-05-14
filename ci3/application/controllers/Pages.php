@@ -5,7 +5,23 @@ class Pages extends CI_Controller {
 
 	public function index()
 	{
-        print("Hello!");
+		return view('wellcome_message');
+        //print("Hello!");
 		//$this->load->view('welcome_message');
+	}
+
+	public function view($page = 'home')
+	{
+		if ( ! is_file(APPATH.'/Views/pages/'.$page.'.php'))
+		{
+			// Whoops, we don't have a page for that!
+			throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
+		}
+
+		$data['title'] = ucfirst($page); // Capitalize the first letter
+
+		echo view('templates/header', $data);
+		echo view('pages/'.$page, $data);
+		echo view('templates/footer', $data);
 	}
 }
