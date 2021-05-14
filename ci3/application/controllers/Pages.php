@@ -12,16 +12,16 @@ class Pages extends CI_Controller {
 
 	public function view($page = 'home')
 	{
-		if ( ! is_file(APPPATH.'/Views/pages/'.$page.'.php'))
+		if ( ! is_file(APPPATH.'/views/pages/'.$page.'.php'))
 		{
 			// Whoops, we don't have a page for that!
-			throw new \CodeIgniter\Exceptions\PageNotFoundException($page);
+			show_404();
 		}
 
 		$data['title'] = ucfirst($page); // Capitalize the first letter
 
-		echo view('templates/header', $data);
-		echo view('pages/'.$page, $data);
-		echo view('templates/footer', $data);
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/'.$page, $data);
+		$this->load->view('templates/footer', $data);
 	}
 }
