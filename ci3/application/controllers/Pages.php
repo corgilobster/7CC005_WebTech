@@ -5,7 +5,7 @@ class Pages extends CI_Controller {
 
 	public function index()
 	{
-		return view('wellcome_message');
+		return view('welcome_message');
         //print("Hello!");
 		//$this->load->view('welcome_message');
 	}
