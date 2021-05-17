@@ -2,15 +2,18 @@ import { Component } from "react";
 import './Game.css';
 import CharacterDetails from './CharacterDetails';
 import Messages from './Messages';
+import { useBeforeunload } from 'react-beforeunload';
 
 class Game extends Component{
     constructor(props){
         super(props);
         this.state = {
             room: 'start',
-            messages: []
+            messages: [],
+            player: []
         };
         this._handleCommand = this._onCommand.bind(this);
+        this._logOff = this._onLogOff.bind(this);
         this._welcomeMessage(); 
     }
 
@@ -24,6 +27,13 @@ class Game extends Component{
         this.setState({
             messages
         });
+        
+    }
+    
+    componentDidMount() {
+        fetch('http://')
+    }
+    _onLogOff(e) {
         
     }
 
@@ -72,6 +82,7 @@ class Game extends Component{
                         Player List Here
                     </div>
                 </div>
+                <Beforeunload onBeforeunload={(event) => this._logOff} />
             </div>
             
         );

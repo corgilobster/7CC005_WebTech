@@ -15,7 +15,7 @@ class Player_model extends CI_Model
     function get_password($name)
     {
         $this->db->select('password');
-        $query = $this->db->get('player');
+        $query = $this->db->get_where('player', array('name' => $name));
         return $query->result();
     }
 
@@ -54,5 +54,14 @@ class Player_model extends CI_Model
         $this->db->set('current_health', $health);
         $this->db->where('name', $name);
         $this->db->update('player');
+    }
+
+    function update_online_status($name)
+    {
+        $this->db->select('online');
+        $query = this->db->get_where('player', array('name' => $name));
+        $status = $query->result();
+        $this->db->set('online', !$status);
+        $
     }
 }
