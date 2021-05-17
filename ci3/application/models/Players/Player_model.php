@@ -62,6 +62,6 @@ class Player_model extends CI_Model
         $query = this->db->get_where('player', array('name' => $name));
         $status = $query->result();
         $this->db->set('online', !$status);
-        $
+        
     }
 }
