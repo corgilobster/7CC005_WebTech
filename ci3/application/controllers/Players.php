@@ -32,10 +32,12 @@ class Players extends REST_Controller
         
     }
 
-    public function login($username, $password) 
+    public function login() 
     {
-        return $this->pm->login_player($username, $password);
-
+        $username = $this->input->post('name');
+        $password = $this->input->post('password');
+        //return $this->pm->login_player($username, $password);
+        print($username, $password);
         
     }
 }
