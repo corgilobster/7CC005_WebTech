@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require APPPATH.'libraries/REST_Controller.php';
-require APPpATH.'libraries/Format.php';
+require APPPATH.'libraries/Format.php';
 
 class Players extends REST_Controller 
 {

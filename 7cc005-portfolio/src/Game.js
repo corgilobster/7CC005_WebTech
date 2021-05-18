@@ -31,9 +31,28 @@ class Game extends Component{
     }
     
     componentDidMount() {
-        fetch('http://')
+        fetch('http://mi-linux.wlv.ac.uk/2006100/ci3/index.php/players')
+            .then(response => {
+                return response.json();
+            }).then(result => {
+                console.log(result);
+                this.setState({
+                    players:result
+                });
+            });
     }
     _onLogOff(e) {
+        
+    }
+
+    // used to for the player to log in and retrieve data to be displayed
+    _onLogIn(s){
+        const login = s.split(" ", 2);
+        const requestOptions = {
+            name: login[0],
+            password: login[1]
+        }
+        fetch('http://mi-linux.wlv.ac.uk/2006100/ci3/index.php/players/login', requestOptions)
         
     }
 
@@ -42,10 +61,18 @@ class Game extends Component{
         console.log("_onCommand triggered");
         const command = this.commandInput.value;
         this.commandInput.value = "";
-        if(command.startsWith("/shout ")) {
+        // begin shout command
+        if(command.startsWith("/shout ")) { 
             const shout = command.substring(7);
             this._addMessage(`You shout "${shout}"`);
-        } else {
+        } // end shout command 
+        // begin login command 
+        else if (command.startsWith("/login ")) {  
+            const login = command.substring(7);
+            this._onLogIn(login);  
+        } // end login command
+
+        else {
             this._addMessage(`You say "${command}"`);
         }
     }
