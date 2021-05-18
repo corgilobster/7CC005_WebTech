@@ -1,14 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Players extends REST_Controller 
+class Players extends CI_Controller 
 {
-
-    use REST_Controller 
-    {
-        REST_Controller::__construct as private __resTraitConstruct;
-    }
-    
     function __construct()
     {
         parent::__construct();
@@ -26,7 +20,7 @@ class Players extends REST_Controller
         $username = $this->input->post('name');
         $password = $this->input->post('password');
         //return $this->pm->login_player($username, $password);
-        print($username, $password);
+        print($username . " " . $password);
         
     }
 }
