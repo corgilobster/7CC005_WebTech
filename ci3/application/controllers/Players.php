@@ -6,8 +6,7 @@ class Players extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->__resTraitConstruct();
-        $this->load->model('player_model', 'pm');
+        $this->load->model('Player_model', 'pm');
     }
 
     public function __createPlayer($username, $password)
