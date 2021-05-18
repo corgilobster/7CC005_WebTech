@@ -6,9 +6,10 @@ class Player_model extends CI_Model
 {
     private $player = 'player';
 
-    function check_player($name)
+    public function check_player($name)
     {
-        $query = $this->db->get_where($this->player, array("name" => $name));
+        $this->load->database();
+        $query = $this->db->get_where('player', array("name" => $name));
         if($query) return true; else return false;
     }
 
@@ -31,10 +32,10 @@ class Player_model extends CI_Model
 
     function login_player($name, $password)
     {
-        if(!check_player($name)) return NULL;
-        else if( $password === get_password($player))
+        if(!$this->check_player($name)) return NULL;
+        else if( $password === $this->get_password($name))
         {
-            $query = $this->db->get_where($this->player, array("name" => $name));
+            $query = $this->db->get_where('player', array("name" => $name));
             return $query->result();
         }
         return NULL;

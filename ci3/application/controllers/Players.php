@@ -6,7 +6,7 @@ class Players extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Player_model', 'pm');
+        $this->load->model('Players/Player_model', 'pm');
     }
 
     public function __createPlayer($username, $password)
@@ -14,12 +14,19 @@ class Players extends CI_Controller
         
     }
 
+    public function checkPlayer()
+    {
+        $name = $this->input->post('name');
+        $result = $this->pm->check_player($name);
+        print($result);
+    }
+
     public function login() 
     {
         $username = $this->input->post('name');
         $password = $this->input->post('password');
-        //return $this->pm->login_player($username, $password);
-        print($username . " " . $password);
+        return $this->pm->login_player($username, $password);
+        //print($username . " " . $password);
         
     }
 }
