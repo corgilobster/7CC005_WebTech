@@ -56,12 +56,10 @@ class Player_model extends CI_Model
         $this->db->update('player');
     }
 
-    function update_online_status($name)
+    function update_to_offline($name)
     {
-        $this->db->select('online');
-        $query = this->db->get_where('player', array('name' => $name));
-        $status = $query->result();
-        $this->db->set('online', !$status);
-        
+        $this->db->set('online', 0);
+        $this->db->where('name', $name);
+        $this->db->update('player');   
     }
 }
