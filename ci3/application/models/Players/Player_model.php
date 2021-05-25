@@ -8,8 +8,9 @@ class Player_model extends CI_Model
 
     function check_player($name)
     {
-        $query = $this->db->get_where($this->player, array("name" => $name));
-        if($query) return true; else return false;
+        $query = "select * from player where name = " 
+        //$query = $this->db->get_where('player', array("name" => $name));
+        if($query == 1) return true; else return false;
     }
 
     function get_password($name)
@@ -24,7 +25,7 @@ class Player_model extends CI_Model
         $query = $this->db->get_where($this->player, array("name" => $name));
         if($query)
         {
-            return $query->result();
+	            return $query->result();
         }
         return NULL;
     }
