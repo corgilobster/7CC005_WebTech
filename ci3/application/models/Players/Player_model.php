@@ -4,19 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Player_model extends CI_Model
 {
+    public function __construct()
+    {
+        $this->load->database();
+    }
     private $player = 'player';
 
     public function check_player($name)
     {
-<<<<<<< HEAD
-        $this->load->database();
-        $query = $this->db->get_where('player', array("name" => $name));
-        if($query) return true; else return false;
-=======
-        $query = "select * from player where name = " 
+        $query = "select * from player where name = '" . $name . "'";
+        //print($query);
+        $result = $this->db->query($query);
+        $result = json_encode($result->result());
         //$query = $this->db->get_where('player', array("name" => $name));
-        if($query == 1) return true; else return false;
->>>>>>> 4db57b88179c40339e0c3f122665970e9e48a98e
+        if(strcmp($result, '[]') == 0) return false; else return true;
     }
 
     function get_password($name)
@@ -38,13 +39,24 @@ class Player_model extends CI_Model
 
     function login_player($name, $password)
     {
-        if(!$this->check_player($name)) return NULL;
+        print($name . " " . $password);
+        print(" ".$this->check_player($name));
+
+        if($this->check_player($name) === NULL) 
+        {
+            print("wrong username");
+            return "";
+        }
+        
         else if( $password === $this->get_password($name))
         {
             $query = $this->db->get_where('player', array("name" => $name));
-            return $query->result();
+            return json_encode($query->result());
+        } else {
+            print("neither passed");
+            return "";
         }
-        return NULL;
+        
     }
 
     function add_player($name, $password)
