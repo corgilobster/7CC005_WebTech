@@ -18,14 +18,22 @@ class Players extends CI_Controller
     {
         $name = $this->input->post('name');
         $result = $this->pm->check_player($name);
+<<<<<<< HEAD
         print($result);
+=======
+        print($name);
+>>>>>>> 4db57b88179c40339e0c3f122665970e9e48a98e
     }
 
     public function login() 
     {
         $username = $this->input->post('name');
         $password = $this->input->post('password');
+<<<<<<< HEAD
         return $this->pm->login_player($username, $password);
+=======
+        print( $this->pm->login_player($username, $password));
+>>>>>>> 4db57b88179c40339e0c3f122665970e9e48a98e
         //print($username . " " . $password);
         
     }
