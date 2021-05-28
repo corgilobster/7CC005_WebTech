@@ -38,4 +38,17 @@ class Players extends CI_Controller
         //print($username . " " . $password);
         
     }
+
+    public function updateToOffline()
+    {
+        $name = $this->input->post('name');
+        print($this->pm->update_to_offline($name));
+    }
+
+    public function updateHealth()
+    {
+        $name = $this->input->post('name');
+        $health = $this->input->post('health');
+        $this->pm->update_current_health($name, $health);
+    }
 }
