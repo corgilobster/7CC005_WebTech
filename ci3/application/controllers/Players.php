@@ -52,3 +52,4 @@ class Players extends CI_Controller
         $this->pm->update_current_health($name, $health);
     }
 }
+>
