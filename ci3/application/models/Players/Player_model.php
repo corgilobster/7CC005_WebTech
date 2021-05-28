@@ -48,8 +48,11 @@ class Player_model extends CI_Model
         
         else if( strcmp("[{\"password\":\"" . $password ."\"}]", $this->get_password($name) == 1))
         {
-            $query = $this->db->get_where('player', array("name" => $name));
-            print(json_encode($query->result()));
+            $this->db->set('online', 1);
+            $this->db->where('name', $name);
+            $this->db->update('player');
+            $query = $this->db->query('select * from player where name = \'' . $name . '\'');
+            //print(json_encode($query->result()));
             return json_encode($query->result());
         } else {
             print("wrong password");
