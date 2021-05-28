@@ -9,9 +9,11 @@ class Players extends CI_Controller
         $this->load->model('Players/Player_model', 'pm');
     }
 
-    public function __createPlayer($username, $password)
+    public function createPlayer()
     {
-        
+        $name = $this->input->post('name');
+        $password = $this->input->post('password');
+        print($this->pm->add_player($name, $password));
     }
 
     public function getPassword()

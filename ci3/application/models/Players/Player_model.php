@@ -23,8 +23,9 @@ class Player_model extends CI_Model
     function get_password($name)
     {
         $this->db->select('password');
-        $query = $this->db->get_where('player', array('name' => $name));
-        return $query->result();
+        $query = "select password from player where name = '" . $name . "'";
+        $result = $this->db->query($query);
+        return json_encode($result->result());
     }
 
     function get_player($name)
@@ -38,22 +39,20 @@ class Player_model extends CI_Model
     }
 
     function login_player($name, $password)
-    {
-        print($name . " " . $password);
-        print(" ".$this->check_player($name));
-
-        if($this->check_player($name) === NULL) 
+    {   
+        if($this->check_player($name) == NULL) 
         {
-            print("wrong username");
+            print("player doesn't exist");
             return "";
         }
         
-        else if( $password === $this->get_password($name))
+        else if( strcmp("[{\"password\":\"" . $password ."\"}]", $this->get_password($name) == 1))
         {
             $query = $this->db->get_where('player', array("name" => $name));
+            print(json_encode($query->result()));
             return json_encode($query->result());
         } else {
-            print("neither passed");
+            print("wrong password");
             return "";
         }
         
@@ -61,7 +60,7 @@ class Player_model extends CI_Model
 
     function add_player($name, $password)
     {
-        if(check_player($name)) return false;
+        if($this->check_player($name) == 1) return false;
 
         $data = array('name' => $name, 'password' => $password);
         $this->db->insert($this->player, $data);
