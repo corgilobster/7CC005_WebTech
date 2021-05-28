@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Player_model extends CI_Model
+class Game_Model extends CI_Model
 {
     public function __construct()
     {
@@ -82,5 +82,25 @@ class Player_model extends CI_Model
         $this->db->set('online', 0);
         $this->db->where('name', $name);
         $this->db->update('player');   
+    }
+
+    public function get_item($iName)
+    {
+        //$query = "select * from Item where name = '" . #
+    }
+
+    public function add_item_to_inventory($name, $iName)
+    {
+
+    }
+
+    public function remove_item_from_inventory($name, $iName)
+    {
+
+    }
+
+    public function consume_potion($name)
+    {
+
     }
 }
