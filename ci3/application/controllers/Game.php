@@ -52,4 +52,3 @@ class Game extends CI_Controller
         $this->gm->update_current_health($name, $health);
     }
 }
->
