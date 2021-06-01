@@ -117,14 +117,27 @@ class Game_Model extends CI_Model
         else // if the item exists add one to counter
         {
             // https://stackoverflow.com/questions/14891743/extract-a-substring-between-two-characters-in-a-string-php/14891816
+            $iQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', $iName)->pluck('quantity');
+            $iQuantity++;
+            $this->db->set('quantity', $iQuantity);
+            $this->db->where('charID', $pName);
+            $this->db->where('itemID', $iName);
+            $this->db->update('items');
+            return 1;
         }
     }
 
     public function remove_item_from_inventory($pName, $iName)
     {
-        if() // check if item quantity is greater than 1
+        $iQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', $iName)->pluck('quantity');
+        if($iQuantity > 1) // check if item quantity is greater than 1
         {
-
+            $iQuantity--;
+            $this->db->set('quantity', $iQuantity);
+            $this->db->where('charID', $pName);
+            $this->db->where('itemID', $iName);
+            $this->db->update('items');
+            return 1;
         }
         else
         {
@@ -136,13 +149,21 @@ class Game_Model extends CI_Model
 
     public function consume_potion($name)
     {
-        if() // check if item quantity is greater than 1 
+        $pQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', 'potion')->pluck('quantity');
+        if($pQuantity > 1) // check if item quantity is greater than 1 
         {
-
+            $pQuantity--;
+            $this->db->set('quantity', $pQuantity);
+            $this->db->where('charID', $pName);
+            $this->db->where('itemID', 'potion');
+            $this->db->update('items');
+            return 1;
         }
         else // remove from table if quantity = 1
         {
-
+            $this->db->where('charID', $pName);
+            $this->db->where('itemID', 'potion');
+            $this->db->delete('inventory');
         }
 
     }
