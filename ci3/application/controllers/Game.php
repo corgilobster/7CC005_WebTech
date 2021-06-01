@@ -51,4 +51,50 @@ class Game extends CI_Controller
         $health = $this->input->post('health');
         $this->gm->update_current_health($name, $health);
     }
+
+    public function getItem()
+    {
+        $iName = $this->input->post('item');
+        print($this->gm->get_item($iName));
+    }
+
+    public function retrieveInventory()
+    {
+        $name = $this->input->post('name');
+        print($this->gm->retrieve_inventory($name));
+    }
+
+    public function getSpecificItem()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
+        print($this->gm->get_specific_item($name, $item));
+    }
+
+    public function getSpecificItemNum()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
+        print($this->gm->get_specific_item_num($name, $item));
+    }
+
+    public function addItemToInventory()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
+        print($this->gm->add_item_to_inventory($name, $item));
+    }
+
+    public function removeItemFromInventory()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
+        print($this->gm->remove_item_from_inventory($name, $item));
+    }
+
+    public function consumePotion()
+    {
+        $name = $this->input->post('name');
+        print($this->gm->consume_potion($name));
+    }
 }

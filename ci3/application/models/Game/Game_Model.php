@@ -93,13 +93,13 @@ class Game_Model extends CI_Model
         return json_encode($this->db->query($query));
     }
 
-    public function get_specific_inventory($pName, $iName)
+    public function get_specific_item($pName, $iName)
     {
         $query = "select * from inventory where charID = '" . $pName . "' and itemID = '" . "'";
         return json_encode($this->db->query($query));
     }
 
-    public function get_specific_inventory_num($pName, $iName)
+    public function get_specific_item_num($pName, $iName)
     {
         $query = "select quantity from inventory where charID = '" . $pName . "' and itemID = '" . "'";
     }
@@ -108,7 +108,7 @@ class Game_Model extends CI_Model
     {
         if(strcmp(get_item($iName), "[]" ) == 1) return NULL;
         
-        else if(strcmp(get_specific_inventory($pName, $iName), "[]") == 1) // if the item doesn't exist add it to the table
+        else if(strcmp(get_specific_item($pName, $iName), "[]") == 1) // if the item doesn't exist add it to the table
         {
             $data = array('charID' => $pName, 'itemID' => $iName);
             $this->db->insert($this->inventory, $data);
@@ -150,13 +150,28 @@ class Game_Model extends CI_Model
     public function consume_potion($name)
     {
         $pQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', 'potion')->pluck('quantity');
-        if($pQuantity > 1) // check if item quantity is greater than 1 
+        $health = (int)DB::table('player')->where('name', '=', $name)->pluck('health');
+
+        if($pQuantity > 1 && $health > 75) // check if item quantity is greater than 1 and health is greater than 75
         {
             $pQuantity--;
             $this->db->set('quantity', $pQuantity);
             $this->db->where('charID', $pName);
             $this->db->where('itemID', 'potion');
             $this->db->update('items');
+
+            update_current_health($name, 100);
+            return 1;
+        }
+        else if($pQuantity > 1)
+        {
+            $pQuantity--;
+            $this->db->set('quantity', $pQuantity);
+            $this->db->where('charID', $pName);
+            $this->db->where('itemID', 'potion');
+            $this->db->update('items');
+
+            update_current_health($name, $health + 25);
             return 1;
         }
         else // remove from table if quantity = 1
