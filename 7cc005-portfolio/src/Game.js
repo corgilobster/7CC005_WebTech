@@ -41,6 +41,7 @@ class Game extends Component{
                 });
             });
     }
+
     _onLogOff(e) {
         
     }
@@ -71,6 +72,9 @@ class Game extends Component{
             const login = command.substring(7);
             this._onLogIn(login);  
         } // end login command
+        else if (command.startsWith("/help ")) {
+            this._helpMessage();
+        }
 
         else {
             this._addMessage(`You say "${command}"`);
@@ -78,7 +82,11 @@ class Game extends Component{
     }
 
     _welcomeMessage() {
-       this._addMessage("Welcome to mi-dungeon! Type in the text box below to say something! You can shout by entering '/shout ' followed by your message.");
+       this._addMessage("Welcome to mi-dungeon! Type '/login [username] [password]' using your username and password to log in. Alternatively, type '/register [username] [password]' to create a character.");
+    }
+
+    _helpMessage() {
+        this._addMessage("\nCOMMANDS:\n/attack [enemy] - attacks the specified enemy\n/heal - consumes one potion if available\n/equip [item] - equips the specified item\n/logoff - logs off the character");
     }
 
     render() {
