@@ -2,7 +2,7 @@ import React, {Component } from 'react';
 
 class CharacterDetails extends Component {
     render() {
-        const {player } = this.props;
+        const {player} = this.props;
         const health = 100;
         const weapon = "sword";
         const armor = "leather vest";
@@ -13,12 +13,12 @@ class CharacterDetails extends Component {
                 <div className="col-4">
                     <b>Character Details</b>
                 </div>
-                <div className="row">
-                    <div className="col-2">
-                        <b>Name:</b>
+                <div className="row" xs="auto">
+                    <div className="col-2" xs="auto">
+                        <b>     Name:  </b>
                     </div>
-                    <div className="col-3">
-                        Goose
+                    <div className="col-3" xs="auto">
+                        {this.props.player.name}
                     </div>
                 </div>
                 <div className="row">
@@ -26,7 +26,7 @@ class CharacterDetails extends Component {
                         <b>Health:</b>
                     </div>
                     <div className="col-3">
-                        { health }
+                        {this.props.player.current_health} / {this.props.player.max_health}
                     </div>
                 </div>
                 <div className="row">
@@ -34,7 +34,7 @@ class CharacterDetails extends Component {
                         <b>Weapon:</b>
                     </div>
                     <div className="col-3">
-                        { weapon }
+                        {this.props.player.weapon}
                     </div>
                 </div>
                 <div className="row">
@@ -42,7 +42,7 @@ class CharacterDetails extends Component {
                         <b>Armor:</b>
                     </div>
                     <div className="col-3">
-                        { armor }
+                        {this.props.player.armor}
                     </div>
                 </div>
                 <div className="row">
@@ -50,7 +50,7 @@ class CharacterDetails extends Component {
                         <b>Off Hand: </b>
                     </div>
                     <div className="col-3">
-                        { offhand }
+                        {this.props.player.offhand}
                     </div>
                 </div>
             </div>

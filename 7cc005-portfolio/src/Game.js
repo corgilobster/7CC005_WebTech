@@ -2,7 +2,7 @@ import { Component } from "react";
 import './Game.css';
 import CharacterDetails from './CharacterDetails';
 import Messages from './Messages';
-import { useBeforeunload } from 'react-beforeunload';
+//import { useBeforeunload } from 'react-beforeunload';
 
 class Game extends Component{
     constructor(props){
@@ -10,7 +10,16 @@ class Game extends Component{
         this.state = {
             room: 'start',
             messages: [],
-            player: []
+            player: {
+                name: "null",
+                password: "null",
+                max_health: 100,
+                current_health: 0,
+                weapon: "null",
+                armor: "null",
+                offhand: "null",
+                online: 0
+            }
         };
         this._handleCommand = this._onCommand.bind(this);
         this._logOff = this._onLogOff.bind(this);
@@ -31,29 +40,41 @@ class Game extends Component{
     }
     
     componentDidMount() {
-        fetch('http://mi-linux.wlv.ac.uk/2006100/ci3/index.php/players')
-            .then(response => {
-                return response.json();
-            }).then(result => {
-                console.log(result);
-                this.setState({
-                    players:result
-                });
-            });
+        
     }
 
-    _onLogOff(e) {
-        
+    componentDidUpdate(prevProps, prevState)
+    {
+        if(prevState.player != this.state.player)
+        {
+
+        }
     }
 
     // used to for the player to log in and retrieve data to be displayed
     _onLogIn(s){
         const login = s.split(" ", 2);
         const requestOptions = {
-            name: login[0],
-            password: login[1]
+            name: "Marcus",
+            password: "qwe"
         }
-        fetch('http://mi-linux.wlv.ac.uk/2006100/ci3/index.php/players/login', requestOptions)
+       // console.log("'" + login[0] + "'");
+        //console.log("'" + login[1] + "'");
+        fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
+        .then(res => {
+            try {
+             const data = res.json()
+             console.log('response data?', data)
+           } catch(error) {
+             console.log('Error happened here!')
+             console.error(error)
+           }
+          })
+        .catch(console.log)
+        
+    }
+
+    _onLogOff(e) {
         
     }
 
@@ -66,13 +87,18 @@ class Game extends Component{
         if(command.startsWith("/shout ")) { 
             const shout = command.substring(7);
             this._addMessage(`You shout "${shout}"`);
+        } // end shout command
+        // begin shout command
+        if(command.startsWith("/whisper ")) { 
+            const shout = command.substring(9);
+            this._addMessage(`You whisper "${shout}"`);
         } // end shout command 
         // begin login command 
         else if (command.startsWith("/login ")) {  
             const login = command.substring(7);
             this._onLogIn(login);  
         } // end login command
-        else if (command.startsWith("/help ")) {
+        else if (command.startsWith("/help")) {
             this._helpMessage();
         }
 
@@ -82,7 +108,8 @@ class Game extends Component{
     }
 
     _welcomeMessage() {
-       this._addMessage("Welcome to mi-dungeon! Type '/login [username] [password]' using your username and password to log in. Alternatively, type '/register [username] [password]' to create a character.");
+        this._addMessage("Welcome to mi-dungeon! Type '/login [username] [password]' using your username and password to log in. Alternatively, type '/register [username] [password]' to create a character.");
+        console.log(this.state.player.name);
     }
 
     _helpMessage() {
@@ -110,14 +137,14 @@ class Game extends Component{
                 </div>
                 <div className="col-4">
                     <div className="game-characterDetails">
-                        <CharacterDetails player={ this.props.player } />
+                        <CharacterDetails player={ this.state.player } />
                         {/*Character Details Here*/}
                     </div>
                     <div className="game-playerList">
                         Player List Here
                     </div>
                 </div>
-                <Beforeunload onBeforeunload={(event) => this._logOff} />
+                {/*<Beforeunload onBeforeunload={(event) => this._logOff} />*/}
             </div>
             
         );

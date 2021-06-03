@@ -15,15 +15,15 @@ class App extends Component{
   render() {
     const { player } = this.state;
     let appContents;
-    /*if (player) {
+    if (player) {
       appContents = <Game player={ player } />;
     } else {
       appContents = <Login handleLogin={ this._handleLogin } />;
-    }*/
+    }
 
     return (
         <div className="App container-fluid">
-         <Game/>
+         {appContents}
         </div>
     );
   }
