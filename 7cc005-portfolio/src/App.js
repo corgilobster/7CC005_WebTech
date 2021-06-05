@@ -28,7 +28,33 @@ class App extends Component{
     );
   }
 
-  _onLogin(name, password) {}
+  _onLogin(name, password) {
+
+    const requestOptions = /*{
+      name: "Marcus",
+      password: "qwe"
+  }*/
+    
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: { 'name': name, 'password': password }
+    }
+
+    fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
+    .then(res => {
+      try {
+       console.log('response data?', res);
+      } 
+      catch(error) {
+       console.log('Error happened here!');
+       console.error(error);
+      }
+    }).catch(console.log)
+    .then(data => {
+      console.log(data);
+    })
+  }
 }
 
 

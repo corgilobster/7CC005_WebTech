@@ -122,18 +122,20 @@ class Game extends Component{
                 <div className="col-8">
                     <div className="game-roomDescription">
                         Room Description Here
-                    </div>
-                    {/* Message Log */}
-                    <div className="game-messageLog">
-                        <Messages messages={this.state.messages} />
-                    </div>
-                    <div>
+                   
+                   <div>
                         {/* Input Text Box */}
                         <form onSubmit={this._handleCommand}>    
                             <input type="text" className="form-control" placeholder="Enter command" 
                                     ref={(input) => { this.commandInput = input; }} />
                         </form>
                     </div>
+                    </div>
+                    {/* Message Log */}
+                    <div className="game-messageLog">
+                        <Messages messages={this.state.messages} />
+                    </div>
+                    
                 </div>
                 <div className="col-4">
                     <div className="game-characterDetails">
