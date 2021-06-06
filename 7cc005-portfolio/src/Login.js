@@ -6,26 +6,27 @@ class Login extends Component {
 
         this.state = {
             name: '',
-            password: ''
+            password: '',
+            button: 1
         };
 
-        this._handleLogin = this._onLogin.bind(this);
+        this._handleSubmit = this._onSubmit.bind(this);
         this._handleNameChange = this._onNameChange.bind(this);
         this._handlePasswordChange = this._onPasswordChange.bind(this);
-        this._handleRegistration = this._onRegistration.bind(this);
     }    
             
         render(){
-            const {name, password} = this.state;
+            const name = this.state.name;
+            const password = this.state.password;
             
             return(
-                ////////// login form /////////
+                
                 <div className="row justify-content-center">
                     <div className="col-sm-6 col-md-4">
                         <div className="card">
                         <div className="card-body">
                                 <h4 className="card-title">Login</h4>
-                                <form onSubmit={ this._handleLogin }>
+                                <form onSubmit={ this._handleSubmit }>
                                     <div className="form-group">
                                         <label htmlFor="characterName">Name</label>
                                         <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange }/>
@@ -35,30 +36,9 @@ class Login extends Component {
                                         <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange }/> 
                                     </div>
                                     <div className="form-group">
-                                        <input type="submit" className="btn btn-primary" value="Login" />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                            
-                    </div>
-
-                    {/*////////// registration form //////////*/}
-                    <div className="col-sm-6 col-md-4">
-                        <div className="card">
-                        <div className="card-body">
-                                <h4 className="card-title">register</h4>
-                                <form onSubmit={ this._handleRegistration }>
-                                    <div className="form-group">
-                                        <label htmlFor="characterName">Name</label>
-                                        <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange }/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="passwordInput">Password</label>
-                                        <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange }/> 
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="submit" className="btn btn-primary" value="Register" />
+                                        <input  onClick={() => this.state.button = 0} type="submit" className="btn btn-primary" value="Login" />
+                                        or
+                                        <input onClick={() => this.state.button = 1} type ="submit" className="btn btn-primary" value="Register"/>
                                     </div>
                                 </form>
                             </div>
@@ -69,17 +49,12 @@ class Login extends Component {
             );
         }
     
-    _onLogin(e) {
+    _onSubmit(e) {
         const { name, password} = this.state;
         e.preventDefault();
-
+        if(this.state.button === 0)
         this.props.handleLogin(name, password);
-    }
-
-    _onRegistration(e) {
-        const {name, password} = this.state;
-        e.preventDefault();
-
+        else 
         this.props.handleRegistration(name, password);
     }
 

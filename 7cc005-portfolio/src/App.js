@@ -50,6 +50,28 @@ class App extends Component{
       
     })
   }
+
+  _onRegistration(name, password) {
+    //console.log(name + " " + password);
+    var formData = new FormData();
+    formData.append("name", name);
+    formData.append("password", password);
+    console.log(name + " " + password);
+    const requestOptions = 
+    {
+      method: 'POST',
+      body: formData,
+    }
+
+    fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/createPlayer', requestOptions)
+    .then(res => {
+      console.log(res);
+      if(res == 1) console.log("Creation success!");
+      else
+      console.log("Creation failed!");
+    })
+    
+  }
 }
 
 
