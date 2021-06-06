@@ -8,6 +8,7 @@ class App extends Component{
     super(props);
 
     this._handleLogin = this._onLogin.bind(this);
+    this._handleRegistration = this._onRegistration.bind(this);
 
     this.state = {};
   }
@@ -18,7 +19,7 @@ class App extends Component{
     if (player) {
       appContents = <Game player={ player } />;
     } else {
-      appContents = <Login handleLogin={ this._handleLogin } />;
+      appContents = <Login handleLogin={ this._handleLogin } handleRegistration={ this._handleRegistration } />;
     }
 
     return (
@@ -33,31 +34,14 @@ class App extends Component{
     formData.append("name", name);
     formData.append("password", password);
     console.log(name + " " + password);
-    const requestOptions = /*{
-      name: "Marcus",
-      password: "qwe"
-  }*/
-    
+    const requestOptions = 
     {
       method: 'POST',
       body: formData,
-      //redirect: 'follow'
     }
 
     fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
     .then(res => res.json())
-      
-      /*try {
-        res.json()
-       //console.log('response data?', res);
-
-
-      } 
-      catch(error) {
-       console.log('Error happened here!');
-       console.error(error);
-      }
-    }).catch(console.log)*/
     .then(data => {
       console.log("here!");
       console.log(data[1]);
@@ -65,20 +49,6 @@ class App extends Component{
       this.setState({player: data[0]});
       
     })
-    /*.then( () => {
-      this.setState({
-        player: {
-          name: "Marcus",
-          password: "qwe",
-          max_health: 100,
-          current_health: 100,
-          weapon: "Iron Sword",
-          armor: "Iron Armor",
-          offhand: "Iron Shield",
-          online: 1
-        }
-      })
-    })*/
   }
 }
 
