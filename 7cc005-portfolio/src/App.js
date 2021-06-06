@@ -29,7 +29,10 @@ class App extends Component{
   }
 
   _onLogin(name, password) {
-
+    var formData = new FormData();
+    formData.append("name", name);
+    formData.append("password", password);
+    console.log(name + " " + password);
     const requestOptions = /*{
       name: "Marcus",
       password: "qwe"
@@ -37,23 +40,45 @@ class App extends Component{
     
     {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: { 'name': name, 'password': password }
+      body: formData,
+      //redirect: 'follow'
     }
 
     fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
-    .then(res => {
-      try {
-       console.log('response data?', res);
+    .then(res => res.json())
+      
+      /*try {
+        res.json()
+       //console.log('response data?', res);
+
+
       } 
       catch(error) {
        console.log('Error happened here!');
        console.error(error);
       }
-    }).catch(console.log)
+    }).catch(console.log)*/
     .then(data => {
-      console.log(data);
+      console.log("here!");
+      console.log(data[1]);
+    
+      this.setState({player: data[0]});
+      
     })
+    /*.then( () => {
+      this.setState({
+        player: {
+          name: "Marcus",
+          password: "qwe",
+          max_health: 100,
+          current_health: 100,
+          weapon: "Iron Sword",
+          armor: "Iron Armor",
+          offhand: "Iron Shield",
+          online: 1
+        }
+      })
+    })*/
   }
 }
 

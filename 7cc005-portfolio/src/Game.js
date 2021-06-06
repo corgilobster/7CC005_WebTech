@@ -10,7 +10,8 @@ class Game extends Component{
         this.state = {
             room: 'start',
             messages: [],
-            player: {
+            player: this.props.player
+            /*{
                 name: "null",
                 password: "null",
                 max_health: 100,
@@ -19,7 +20,7 @@ class Game extends Component{
                 armor: "null",
                 offhand: "null",
                 online: 0
-            }
+            }*/
         };
         this._handleCommand = this._onCommand.bind(this);
         this._logOff = this._onLogOff.bind(this);
