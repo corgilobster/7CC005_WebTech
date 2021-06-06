@@ -30,47 +30,53 @@ class App extends Component{
   }
 
   _onLogin(name, password) {
-    var formData = new FormData();
-    formData.append("name", name);
-    formData.append("password", password);
-    console.log(name + " " + password);
-    const requestOptions = 
-    {
-      method: 'POST',
-      body: formData,
-    }
-
-    fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
-    .then(res => res.json())
-    .then(data => {
-      console.log("here!");
-      console.log(data[1]);
-    
-      this.setState({player: data[0]});
+    if(name === "" || password === "") console.log("Please fill all fields");
+    else {
+      var formData = new FormData();
+      formData.append("name", name);
+      formData.append("password", password);
+      const requestOptions = 
+      {
+        method: 'POST',
+        body: formData,
+      }
+        
+        fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/login', requestOptions)
+        .then(res => res.json())
+        .then(data => {
+          //console.log("here!");
+          //console.log(data[1]);
       
-    })
+          this.setState({player: data[0]});
+        }).catch(() => {
+          console.log("wrong username or password");
+        })
+    }
+    
+    
   }
 
   _onRegistration(name, password) {
-    //console.log(name + " " + password);
-    var formData = new FormData();
-    formData.append("name", name);
-    formData.append("password", password);
-    console.log(name + " " + password);
-    const requestOptions = 
-    {
-      method: 'POST',
-      body: formData,
-    }
+    if(name === "" || password === "") console.log("Please fill all fields");
+    else {    
+      var formData = new FormData();
+      formData.append("name", name);
+      formData.append("password", password);
+      //console.log(name + " " + password);
+      const requestOptions = 
+      {
+        method: 'POST',
+        body: formData,
+      }
 
-    fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/createPlayer', requestOptions)
-    .then(res => {
-      console.log(res);
-      if(res == 1) console.log("Creation success!");
-      else
-      console.log("Creation failed!");
-    })
-    
+      fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/createPlayer', requestOptions)
+      .then(res => res.text())
+      .then(result => {
+        if(result === "") console.log("fail");
+        else
+        console.log("success");
+      })
+    } 
   }
 }
 

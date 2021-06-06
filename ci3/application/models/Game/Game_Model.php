@@ -39,8 +39,8 @@ class Game_Model extends CI_Model
     {   
         if($this->check_player($name) == NULL) 
         {
-            print("player doesn't exist");
-            return "";
+            //print("player doesn't exist");
+            return null;
         }
         
         else if( strcmp("[{\"password\":\"" . $password ."\"}]", $this->get_password($name) == 1))
@@ -52,8 +52,8 @@ class Game_Model extends CI_Model
             //print(json_encode($query->result()));
             return json_encode($query->result());
         } else {
-            print("wrong password");
-            return "";
+            //print("wrong password");
+            return null;
         }
         
     }
