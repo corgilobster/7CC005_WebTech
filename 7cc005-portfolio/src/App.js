@@ -3,7 +3,10 @@ import Login from './Login';
 import Game from './Game';
 import { Component } from 'react';
 
+
+
 class App extends Component{
+  
   constructor(props) {
     super(props);
 
@@ -19,20 +22,31 @@ class App extends Component{
     const { player } = this.state;
     let appContents;
     if (player) {
-      appContents = <Game player={ player } />;
+      appContents = 
+      <Game player={ player } />;
     } else {
-      appContents = <Login handleLogin={ this._handleLogin } handleRegistration={ this._handleRegistration } />;
+      appContents = 
+      
+        <Login handleLogin={ this._handleLogin } handleRegistration={ this._handleRegistration } />
+      
+        ;
     }
 
     return (
+        
         <div className="App container-fluid">
+          
          {appContents}
         </div>
     );
   }
-
+  
   _onLogin(name, password) {
-    if(name === "" || password === "") console.log("Please fill all fields");
+    
+    if(name === "" || password === "") {
+      alert("Please fill all fields");
+      //console.log("Please fill all fields");
+    }
     else {
       var formData = new FormData();
       formData.append("name", name);
@@ -50,9 +64,9 @@ class App extends Component{
           //console.log(data[1]);
       
           this.setState({player: data[0]});
-        })/*.catch(() => {
-          console.log("wrong username or password");
-        })*/
+        }).catch(() => {
+          alert("Wrong username or password. Please try again.")
+        })
     }
     
     
@@ -60,12 +74,8 @@ class App extends Component{
 
   _onRegistration(name, password) {
     if(name === "" || password === "") {
-      this.render(
-        <alert variant='warning'>
-            No values entered. Please input values into the fields.
-        </alert>
-    )
-      console.log("Please fill all fields");
+      alert("Please fill all fields");
+      //console.log("Please fill all fields");
     }
     else {    
       var formData = new FormData();
@@ -81,13 +91,18 @@ class App extends Component{
       fetch('https://mi-linux.wlv.ac.uk/~2006100/ci3/index.php/Game/createPlayer', requestOptions)
       .then(res => res.text())
       .then(result => {
-        if(result === "") console.log("fail");
+        if(result === "") {
+          alert("Username has already been taken. Please choose another.");
+        }
         else
-        console.log("success");
+        alert("Character has been created! Please click the login button to begin playing!");
       })
     } 
   }
 }
+
+
+
 
 
 

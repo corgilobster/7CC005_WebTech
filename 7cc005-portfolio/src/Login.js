@@ -25,9 +25,7 @@ class Login extends Component {
                 <div className="row justify-content-center">
                     
                     <div className="col-sm-6 col-md-4">
-                        <div>
-                            {/*(this.state.notify > 0) ? _renderNotification(this.state.notify) : <span>&nbsp;&nbsp;&nbsp;</span>*/}
-                        </div>
+                        
                         
                         <div className="card">
                         <div className="card-body">
@@ -55,46 +53,7 @@ class Login extends Component {
             );
         }
     
-    _renderNotification(e){
-        switch(this.state.notify)
-        {
-            case 1:
-                // character registered
-                this.render(
-                    <alert variant='success'>
-                        Your character has been registered! Now click 'Login' to play!
-                    </alert>
-                )
-                break;
-            case 2:
-                // no input
-                this.render(
-                    <alert variant='warning'>
-                        No values entered. Please input values into the fields.
-                    </alert>
-                )
-
-                break;
-            case 3: 
-                // wrong username/password
-                this.render(
-                    <alert variant='danger'>
-                        Wrong username or password!
-                    </alert>
-                )
-
-                break;
-            case 4: 
-                // character name taken
-                this.render(
-                    <alert variant='danger'>
-                        Character name has been taken. Please choose another.
-                    </alert>
-                )
-
-                break;
-        }
-    }
+   
 
     _onSubmit(e) {
         const { name, password} = this.state;
