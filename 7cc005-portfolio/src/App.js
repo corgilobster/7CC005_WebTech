@@ -10,7 +10,9 @@ class App extends Component{
     this._handleLogin = this._onLogin.bind(this);
     this._handleRegistration = this._onRegistration.bind(this);
 
-    this.state = {};
+    this.state = {
+      
+    };
   }
 
   render() {

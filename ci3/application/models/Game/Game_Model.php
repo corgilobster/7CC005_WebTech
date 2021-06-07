@@ -43,7 +43,7 @@ class Game_Model extends CI_Model
             return null;
         }
         
-        else if( strcmp("[{\"password\":\"" . $password ."\"}]", $this->get_password($name) == 1))
+        else if( strcmp("[{\"password\":\"" . $password ."\"}]", $this->get_password($name)) == 1)
         {
             $this->db->set('online', 1);
             $this->db->where('name', $name);
