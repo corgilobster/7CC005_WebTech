@@ -50,16 +50,23 @@ class App extends Component{
           //console.log(data[1]);
       
           this.setState({player: data[0]});
-        }).catch(() => {
+        })/*.catch(() => {
           console.log("wrong username or password");
-        })
+        })*/
     }
     
     
   }
 
   _onRegistration(name, password) {
-    if(name === "" || password === "") console.log("Please fill all fields");
+    if(name === "" || password === "") {
+      this.render(
+        <alert variant='warning'>
+            No values entered. Please input values into the fields.
+        </alert>
+    )
+      console.log("Please fill all fields");
+    }
     else {    
       var formData = new FormData();
       formData.append("name", name);
