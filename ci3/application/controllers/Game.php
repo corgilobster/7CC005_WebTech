@@ -35,6 +35,24 @@ class Game extends CI_Controller
         print($result);
     }
 
+    public function getPlayerWeapon()
+    {
+        $name = $this->input->post('name');
+        print($this->gm->get_player_weapon($name));
+    }
+
+    public function getPlayerArmor()
+    {
+        $name = $this->input->post('name');
+        print($this->gm->get_player_armor($name));
+    }
+
+    public function getPlayerOffhand()
+    {
+        $name = $this->input->post('name');
+        print($this->gm->get_player_offhand($name));
+    }
+
     public function login() 
     {
         $username = $this->input->post('name');
@@ -101,5 +119,19 @@ class Game extends CI_Controller
     {
         $name = $this->input->post('name');
         print($this->gm->consume_potion($name));
+    }
+
+    public function equipItem()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
+        print($this->gm->equip_item($name, $item));
+        
+    }
+
+    public function unequipItem()
+    {
+        $name = $this->input->post('name');
+        $item = $this->input->post('item');
     }
 }

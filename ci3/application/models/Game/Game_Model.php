@@ -18,14 +18,14 @@ class Game_Model extends CI_Model
         if(strcmp($result, '[]') == 0) return false; else return true;
     }
 
-    function get_password($name)
+    public function get_password($name)
     {
         $query = "select password from player where name = '" . $name . "'";
         $result = $this->db->query($query);
         return json_encode($result->result());
     }
 
-    function get_player($name)
+    public function get_player($name)
     {
         $query = $this->db->get_where($this->player, array("name" => $name));
         if($query)
@@ -35,7 +35,25 @@ class Game_Model extends CI_Model
         return NULL;
     }
 
-    function login_player($name, $password)
+    public function get_player_weapon($name)
+    {
+        $query = "select weapon from player where name = '" . $name . "'";
+        return $this->db->query($query)->row()->weapon;
+    }
+
+    public function get_player_armor($name)
+    {
+        $query = "select armor from player where name = '" . $name . "'";
+        return $this->db->query($query)->row()->armor;
+    }
+
+    public function get_player_offhand($name)
+    {
+        $query = "select offhand from player where name = '" . $name . "'";
+        return $this->db->query($query)->row()->offhand;
+    }
+
+    public function login_player($name, $password)
     {   
         if($this->check_player($name) == NULL) 
         {
@@ -59,7 +77,7 @@ class Game_Model extends CI_Model
         
     }
 
-    function add_player($name, $password)
+    public function add_player($name, $password)
     {
         if($this->check_player($name) == 1) return false;
 
@@ -68,14 +86,14 @@ class Game_Model extends CI_Model
         return true;
     }
 
-    function update_current_health($name, $health)
+    public function update_current_health($name, $health)
     {
         $this->db->set('current_health', $health);
         $this->db->where('name', $name);
         $this->db->update('player');
     }
 
-    function update_to_offline($name)
+    public function update_to_offline($name)
     {
         $this->db->set('online', 0);
         $this->db->where('name', $name);
@@ -84,103 +102,170 @@ class Game_Model extends CI_Model
 
     public function get_item($iName)
     {
-        $query = "select * from Item where name = '" . $iName . "'";
-        return json_encode($this->db->query($query));
+        $query = "select * from items where item_name = '" . $iName . "'";
+        $res = $this->db->query($query);
+        return json_encode($res->result());
     }
 
     public function retrieve_inventory($pName)
     {
-        $query = "select * from inventory where charID = '" . $pName . "'";
+        $query = "select * from inventory where name = '" . $pName . "'";
         return json_encode($this->db->query($query));
     }
 
     public function get_specific_item($pName, $iName)
     {
-        $query = "select * from inventory where charID = '" . $pName . "' and itemID = '" . "'";
-        return json_encode($this->db->query($query));
+        $query = "select * from inventory where name = '" . $pName . "' and item = '" . $iName . "'";
+        return json_encode($this->db->query($query)->result());
     }
 
     public function get_specific_item_num($pName, $iName)
     {
-        $query = "select quantity from inventory where charID = '" . $pName . "' and itemID = '" . "'";
+        if(strcmp($this->get_specific_item($pName, $iName), "[]") == 0) return 0;
+        
+        $query = "select quantity from inventory where name = '" . $pName . "' and item = '" . $iName . "'";
+        
+        $res = $this->db->query($query)->row()->quantity;
+        
+        
+        return $res; 
     }
 
     public function add_item_to_inventory($pName, $iName)
     {
-        if(strcmp(get_item($iName), "[]" ) == 1) return NULL;
+        if(strcmp($this->get_item($iName), "[]" ) == 0) return NULL;
         
-        else if(strcmp(get_specific_item($pName, $iName), "[]") == 1) // if the item doesn't exist add it to the table
+        else if(strcmp($this->get_specific_item($pName, $iName), "[]") == 0) // if the item doesn't exist in player's inventory, add it to the table
         {
-            $data = array('charID' => $pName, 'itemID' => $iName);
-            $this->db->insert($this->inventory, $data);
+            $data = array('name' => $pName, 'item' => $iName, 'quantity' => 1);
+            $this->db->insert('inventory', $data);
             return 1;
         }
         else // if the item exists add one to counter
         {
             // https://stackoverflow.com/questions/14891743/extract-a-substring-between-two-characters-in-a-string-php/14891816
-            $iQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', $iName)->pluck('quantity');
+            $iQuantity = $this->get_specific_item_num($pName, $iName);
             $iQuantity++;
             $this->db->set('quantity', $iQuantity);
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', $iName);
-            $this->db->update('items');
+            $this->db->where('name', $pName);
+            $this->db->where('item', $iName);
+            $this->db->update('inventory');
             return 1;
         }
     }
 
     public function remove_item_from_inventory($pName, $iName)
     {
-        $iQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', $iName)->pluck('quantity');
+        if(strcmp($this->get_specific_item($pName, $iName), "[]" ) == 0) return NULL;
+
+        $iQuantity = $this->get_specific_item_num($pName, $iName);
         if($iQuantity > 1) // check if item quantity is greater than 1
         {
             $iQuantity--;
             $this->db->set('quantity', $iQuantity);
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', $iName);
-            $this->db->update('items');
+            $this->db->where('name', $pName);
+            $this->db->where('item', $iName);
+            $this->db->update('inventory');
             return 1;
         }
         else
         {
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', $iName);
+            $this->db->where('name', $pName);
+            $this->db->where('item', $iName);
             $this->db->delete('inventory');
         }
     }
 
     public function consume_potion($name)
     {
-        $pQuantity = (int)DB::table('items')->where('charID', '=', $pName)->where('itemID', '=', 'potion')->pluck('quantity');
-        $health = (int)DB::table('player')->where('name', '=', $name)->pluck('health');
+        $pQuantity = $this->get_specific_item_num($pName, 'Health Potion');
+        $query = "select current_health from player where name = '" . $name . "'";
+        $health = $this->db->query($query)->row()->current_health;
 
-        if($pQuantity > 1 && $health > 75) // check if item quantity is greater than 1 and health is greater than 75
+        if($pQuantity == null) return 0; // check if player has no potions
+        else if($health >= 100 && $pQuantity > 0) // for idiots who drink potions at full health
         {
-            $pQuantity--;
-            $this->db->set('quantity', $pQuantity);
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', 'potion');
-            $this->db->update('items');
-
-            update_current_health($name, 100);
+            $this->remove_item_from_inventory($name, 'Health Potion');
             return 1;
         }
-        else if($pQuantity > 1)
+        else if($pQuantity > 1 && $health > 75) // check if item quantity is greater than 1 and health is greater than 75
         {
-            $pQuantity--;
+            /*$pQuantity--;
             $this->db->set('quantity', $pQuantity);
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', 'potion');
-            $this->db->update('items');
+            $this->db->where('name', $name);
+            $this->db->where('item', 'potion');
+            $this->db->update('inventory');*/
+            $this->remove_item_from_inventory($name, 'Health Potion');
+
+            $this->update_current_health($name, 100);
+            return 1;
+        }
+        else // check if potion quantity is greater than 1 knowing health is less than 75
+        {
+            $this->remove_item_from_inventory($name, 'Health Potion');
 
             update_current_health($name, $health + 25);
             return 1;
         }
-        else // remove from table if quantity = 1
-        {
-            $this->db->where('charID', $pName);
-            $this->db->where('itemID', 'potion');
-            $this->db->delete('inventory');
+
+    }
+
+    public function equip_item($name, $item)
+    {
+        if(strcmp($this->get_specific_item($name, $item), "[]" ) == 0) return "NULL";
+
+        $this->remove_item_from_inventory($name, $item);
+        
+        $query = "select type from items where item_name = '" . $item . "'";
+        $type = $this->db->query($query)->row()->type;
+
+        switch($type){
+            case 'armor':
+                $oldEquip = $this->get_player_armor($name);
+                if($oldEquip != null){
+                    $this->add_item_to_inventory($name, $oldEquip);
+                }
+
+                $this->db->set('armor', $item);
+                $this->db->where('name', $name);
+                $this->db->update('player');
+                return 1;
+
+                break;
+            case 'weapon':
+                $oldEquip = $this->get_player_weapon($name);
+                if($oldEquip != null){
+                    $this->add_item_to_inventory($name, $oldEquip);
+                }
+
+                $this->db->set('weapon', $item);
+                $this->db->where('name', $name);
+                $this->db->update('player');
+                return 1;
+                break;
+            case 'offhand':
+                $oldEquip = $this->get_player_offhand($name);
+                if($oldEquip != null){
+                    $this->add_item_to_inventory($name, $oldEquip);
+                }
+
+                $this->db->set('offhand', $item);
+                $this->db->where('name', $name);
+                $this->db->update('player');
+                return 1;
+                break;
+            case 'consumable': // can't equip consumables! 
+                return null;
+                break;
         }
+         
+
+        
+
+    }
+
+    public function unequip_item($name, $item)
+    {
 
     }
 }
