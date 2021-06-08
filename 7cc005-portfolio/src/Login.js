@@ -33,11 +33,11 @@ class Login extends Component {
                                 <form onSubmit={ this._handleSubmit }>
                                     <div className="form-group">
                                         <label htmlFor="characterName">Name</label>
-                                        <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange }/>
+                                        <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange } maxLength="15"/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="passwordInput">Password</label>
-                                        <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange }/> 
+                                        <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange } maxLength="20"/> 
                                     </div>
                                     <div className="form-group">
                                         <input  onClick={() => this.state.button = 0} type="submit" className="btn btn-primary" value="Login" />
