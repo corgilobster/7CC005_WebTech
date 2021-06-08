@@ -9,7 +9,7 @@ class App extends Component{
   
   constructor(props) {
     super(props);
-
+    this._handleLogoff = this._removePlayer.bind(this);
     this._handleLogin = this._onLogin.bind(this);
     this._handleRegistration = this._onRegistration.bind(this);
 
@@ -23,7 +23,7 @@ class App extends Component{
     let appContents;
     if (player) {
       appContents = 
-      <Game player={ player } />;
+      <Game player={ player } handleLogoff={ this._handleLogoff }/>;
     } else {
       appContents = 
       
@@ -72,6 +72,9 @@ class App extends Component{
     
   }
 
+  _removePlayer(){
+    this.state = {};
+  }
   _onRegistration(name, password) {
     if(name === "" || password === "") {
       alert("Please fill all fields");
