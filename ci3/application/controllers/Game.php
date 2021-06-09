@@ -129,9 +129,10 @@ class Game extends CI_Controller
         
     }
 
-    public function unequipItem()
+    public function deleteAllFromInventory()
     {
         $name = $this->input->post('name');
-        $item = $this->input->post('item');
+        print($this->gm->delete_all_from_inventory($name));
+        
     }
 }

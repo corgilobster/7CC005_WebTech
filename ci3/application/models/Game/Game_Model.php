@@ -107,10 +107,10 @@ class Game_Model extends CI_Model
         return json_encode($res->result());
     }
 
-    public function retrieve_inventory($pName)
+    public function retrieve_inventory($name)
     {
-        $query = "select * from inventory where name = '" . $pName . "'";
-        return json_encode($this->db->query($query));
+        $query = "select * from inventory where name = '" . $name . "'";
+        return json_encode($this->db->query($query)->result());
     }
 
     public function get_specific_item($pName, $iName)
@@ -178,7 +178,7 @@ class Game_Model extends CI_Model
 
     public function consume_potion($name)
     {
-        $pQuantity = $this->get_specific_item_num($pName, 'Health Potion');
+        $pQuantity = $this->get_specific_item_num($name, 'Health Potion');
         $query = "select current_health from player where name = '" . $name . "'";
         $health = $this->db->query($query)->row()->current_health;
 
@@ -204,7 +204,7 @@ class Game_Model extends CI_Model
         {
             $this->remove_item_from_inventory($name, 'Health Potion');
 
-            update_current_health($name, $health + 25);
+            $this->update_current_health($name, $health + 25);
             return 1;
         }
 
@@ -264,8 +264,10 @@ class Game_Model extends CI_Model
 
     }
 
-    public function unequip_item($name, $item)
+    public function delete_all_from_inventory($name)
     {
-
+        $query = "delete from inventory where name = '" . $name . "'";
+        $this->db->query($query);
+        
     }
 }
