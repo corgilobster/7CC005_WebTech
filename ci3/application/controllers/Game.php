@@ -121,6 +121,13 @@ class Game extends CI_Controller
         print($this->gm->consume_potion($name));
     }
 
+    public function addMultiplePotions()
+    {
+        $name = $this->input->post('name');
+        $quantity = $this->input->post('quantity');
+        print($this->gm->add_multiple_potions($name, $quantity));
+    }
+
     public function equipItem()
     {
         $name = $this->input->post('name');

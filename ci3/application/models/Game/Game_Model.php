@@ -210,6 +210,25 @@ class Game_Model extends CI_Model
 
     }
 
+    public function add_multiple_potions($name, $quantity)
+    {
+        if(strcmp($this->get_specific_item($name, "Health Potion"), "[]") == 0) // if the item doesn't exist in player's inventory, add it to the table
+        {
+            $data = array('name' => $name, 'item' => "Health Potion", 'quantity' => $quantity);
+            $this->db->insert('inventory', $data);
+            return 1;
+        }
+        else // if the item exists add one to counter
+        {
+            $newQuantity = $this->get_specific_item_num($name, "Health Potion") + $quantity;
+            $this->db->set('quantity', $newQuantity);
+            $this->db->where('name', $name);
+            $this->db->where('item', "Health Potion");
+            $this->db->update('inventory');
+            return 1;
+        }
+    }
+
     public function equip_item($name, $item)
     {
         if(strcmp($this->get_specific_item($name, $item), "[]" ) == 0) return "NULL";
@@ -268,6 +287,6 @@ class Game_Model extends CI_Model
     {
         $query = "delete from inventory where name = '" . $name . "'";
         $this->db->query($query);
-        
+        return 1;
     }
 }
