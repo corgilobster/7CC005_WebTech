@@ -22,29 +22,30 @@ class Login extends Component {
             return(
                 
                 
-                <div className="row justify-content-center">
+                <div className="row justify-content-center mt-6">
                     
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-1 col-md-2 w-50 flex-shrink-0">
                         
                         
-                        <div className="card">
-                        <div className="card-body">
-                                <h4 className="card-title">Login</h4>
-                                <form onSubmit={ this._handleSubmit }>
-                                    <div className="form-group">
-                                        <label htmlFor="characterName">Name</label>
-                                        <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange } maxLength="15"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="passwordInput">Password</label>
-                                        <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange } maxLength="20"/> 
-                                    </div>
-                                    <div className="form-group">
-                                        <input  onClick={() => this.state.button = 0} type="submit" className="btn btn-primary" value="Login" />
-                                        or
-                                        <input onClick={() => this.state.button = 1} type ="submit" className="btn btn-primary" value="Register"/>
-                                    </div>
-                                </form>
+                        <div className="card bg-dark mt-5 flex-shrink-0">
+                            <div className="card-body flex-shrink-0">
+                                    <h4 className="card-title">Login</h4>
+                                    <form onSubmit={ this._handleSubmit }>
+                                        <div className="form-group">
+                                            <label className= "mx-4" htmlFor="characterName">Name</label>
+                                            <div className=""></div>
+                                            <input type="text" classname="form-control" id="characterName" placeholder="Enter Name" value={ name } onChange={ this._handleNameChange } maxLength="15"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className= "mx-4" htmlFor="passwordInput">Password</label>
+                                            <input type="text" classname="form-control" id="passwordInput" placeholder="Enter Password" value={ password } onChange={ this._handlePasswordChange } maxLength="20"/> 
+                                        </div>
+                                        <div className="form-group">
+                                            <input  onClick={() => this.setState({button: 0})} type="submit" className="btn btn-primary" value="Login" />
+                                            <div className="px-1"> or </div>
+                                            <input onClick={() => this.setState({button: 1})} type ="submit" className="btn btn-primary" value="Register"/>
+                                        </div>
+                                    </form>
                             </div>
                         </div>
                             

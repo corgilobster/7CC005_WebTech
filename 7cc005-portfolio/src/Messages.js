@@ -4,11 +4,12 @@ import { Component } from "react";
 
 class Messages extends Component {
     render(){
+        // creates the list item and maps them to an array
         const messageRows = this.props.messages 
-            .map((message) => <li>{message.timestamp.toString()} - {message.message}</li>);
-        console.log("Message class is called!");
+            .map((message) => <li className="text-left">{message.timestamp} - {message.message}</li>);
         return(
-            <ul className="list-unstyled">
+            // renders the messages
+            <ul className="list-group mx">
                 {messageRows}
             </ul>
         );    

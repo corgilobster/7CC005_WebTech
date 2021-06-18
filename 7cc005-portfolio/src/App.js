@@ -3,19 +3,21 @@ import Login from './Login';
 import Game from './Game';
 import { Component } from 'react';
 
-
-
+/* 
+References
+  Online Text RPG
+  URL: https://blog.pusher.com/online-text-rpg-entering-the-world-part-1/
+  Reason: Used this to get the layout of the user interface. Changed aspects to fit my
+          version of the game.
+*/
 class App extends Component{
   
   constructor(props) {
     super(props);
-    this._handleLogoff = this._removePlayer.bind(this);
     this._handleLogin = this._onLogin.bind(this);
     this._handleRegistration = this._onRegistration.bind(this);
 
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
   render() {
@@ -61,6 +63,7 @@ class App extends Component{
         .then(res => res.json())
         .then(data => {
           //console.log("here!");
+          //console.log(data[0]);
           //console.log(data[1]);
       
           this.setState({player: data[0]});
@@ -72,9 +75,7 @@ class App extends Component{
     
   }
 
-  _removePlayer(){
-    this.state = {};
-  }
+  
   _onRegistration(name, password) {
     if(name === "" || password === "") {
       alert("Please fill all fields");
